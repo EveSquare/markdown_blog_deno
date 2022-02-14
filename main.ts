@@ -1,4 +1,4 @@
-const { cwd, stdout, copy } = Deno;
+const { cwd, readDir, readFile, stat } = Deno;
 import Aqua from "https://deno.land/x/aqua/deploy.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { renderFileToString } from "https://deno.land/x/dejs/mod.ts";
@@ -13,24 +13,22 @@ interface DirTree {
 }
 
 app.get("/", async (req) => {
-  // const startDir = `${cwd()}/pages`;
-  // const dirTree: DirTree = {};
+  const startDir = `${cwd()}/pages`;
+  const dirTree: DirTree = {};
 
-  // for await (const dirEntry of Deno.readDir(startDir)) {
-  //   if (dirEntry.isDirectory) {
-  //     let files = [];
-  //     for await (const file of Deno.readDir(path.join(startDir, dirEntry.name))) {
-  //       const fileInfo = {
-  //         name: file.name,
-  //         info: await Deno.stat(path.join(startDir, dirEntry.name, file.name))
-  //       }
-  //       files.push(fileInfo);
-  //     }
-  //     dirTree[dirEntry.name] = files;
-  //   }
-  // }
-
-  console.log("zen")
+  for await (const dirEntry of readDir(startDir)) {
+    if (dirEntry.isDirectory) {
+      let files = [];
+      for await (const file of readDir(path.join(startDir, dirEntry.name))) {
+        const fileInfo = {
+          name: file.name,
+          info: await stat(path.join(startDir, dirEntry.name, file.name))
+        }
+        files.push(fileInfo);
+      }
+      dirTree[dirEntry.name] = files;
+    }
+  }
 
   const output = await renderFileToString(`${cwd()}/views/debug.ejs`, {
     title: "home",
@@ -50,7 +48,7 @@ app.get("/:category/:page", async (req) => {
   const filePath = `${cwd()}/pages/${category}/${page}.md`;
 
   const decoder = new TextDecoder("utf-8");
-  const markdown = decoder.decode(await Deno.readFile(filePath));
+  const markdown = decoder.decode(await readFile(filePath));
   const markup = Marked.parse(markdown);
 
   const output = await renderFileToString(`${cwd()}/views/pagesBase.ejs`, {
