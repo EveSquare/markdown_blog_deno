@@ -30,12 +30,14 @@ app.get("/", async (req) => {
   //   }
   // }
 
+  console.log("zen")
+
   const output = await renderFileToString(`${cwd()}/views/debug.ejs`, {
     title: "home",
   });
 
   return {
-    content: output,
+    content: String(output),
     headers: {
       "Content-Type": "text/html"
     }
