@@ -1,12 +1,12 @@
 const { cwd, stdout, copy } = Deno;
-import Aqua from "https://deno.land/x/aqua/mod.ts";
+import Aqua from "https://deno.land/x/aqua/deploy.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { renderFileToString } from "https://deno.land/x/dejs/mod.ts";
 import { Marked } from "https://deno.land/x/markdown@v2.0.0/mod.ts";
 
-const app = new Aqua(3100);
+const app = new Aqua();
 
-console.log("listen server http://localhost:3100")
+// console.log("listen server http://localhost:3100")
 
 interface DirTree {
   [name: string]: any;
