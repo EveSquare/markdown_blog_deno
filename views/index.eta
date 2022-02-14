@@ -1,11 +1,14 @@
-<%- await include("views/common/header.ejs",{
-    title: title
-}) %>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <%~ includeFile('./common/header') %>
+    <title>evesq doc - <%= it.title %></title>
+</body>
     <main>
-        <% for (let key in body) { %>
+        <% for (let key in it.body) { %>
             <%= key %>
             <ul>
-                <% body[key].map(file => { %>
+                <% it.body[key].map(file => { %>
                     <% const link = `${key}/${file.name.replace('.md','')}` %>
                     <li>
                         <a href="<%= link %>"><%= file.name %></a>
@@ -14,4 +17,5 @@
             </ul>
         <% }; %>
     </main>
-<%- await include("views/common/footer.ejs") %>
+</body>
+</html>

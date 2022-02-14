@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <%~ includeFile('./common/header') %>
+    <title>evesq doc - <%= it.title %></title>
+</body>
+    <main>
+        <%- it.body %>
+    </main>
+</body>
+</html>
