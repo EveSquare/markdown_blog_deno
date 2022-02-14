@@ -1,10 +1,15 @@
 const { cwd, readDir, readFile, stat } = Deno;
 import Aqua from "https://deno.land/x/aqua/deploy.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
-import { renderFileToString } from "https://deno.land/x/dejs/mod.ts";
+import { renderFile, configure } from "https://deno.land/x/eta@v1.11.0/mod.ts"
 import { Marked } from "https://deno.land/x/markdown@v2.0.0/mod.ts";
 
 const app = new Aqua();
+const viewPath = `${cwd()}/views/`;
+
+configure({
+  views: viewPath,
+});
 
 // console.log("listen server http://localhost:3100")
 
@@ -30,7 +35,7 @@ app.get("/", async (req) => {
     }
   }
 
-  const output = await renderFileToString(`./views/index.ejs`, {
+  const output = await renderFile(`./views/index.ejs`, {
     title: "home",
     body: dirTree
   });
@@ -54,7 +59,7 @@ app.get("/:category/:page", async (req) => {
   const markdown = decoder.decode(await readFile(filePath));
   const markup = Marked.parse(markdown);
 
-  const output = await renderFileToString(`./views/pagesBase.ejs`, {
+  const output = await renderFile(`./views/pagesBase.ejs`, {
     title: page,
     body: markup.content
   });
