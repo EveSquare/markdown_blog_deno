@@ -1,0 +1,17 @@
+<%- await include("views/common/header.ejs",{
+    title: title
+}) %>
+    <main>
+        <% for (let key in body) { %>
+            <%= key %>
+            <ul>
+                <% body[key].map(file => { %>
+                    <% const link = `${key}/${file.name.replace('.md','')}` %>
+                    <li>
+                        <a href="<%= link %>"><%= file.name %></a>
+                    </li>
+                <% }); %>
+            </ul>
+        <% }; %>
+    </main>
+<%- await include("views/common/footer.ejs") %>
