@@ -7,9 +7,10 @@ import { Marked } from "https://deno.land/x/markdown@v2.0.0/mod.ts";
 
 if (Deno.env.DEBUG == "true") {
   const app = new Aqua(3100);
-  console.log("listen server http://localhost:3100")
+  console.log("listen server http://localhost:3100");
 } else {
   const app = new Aqua();
+  console.log("listen deploy mode");
 }
 const viewPath = `${cwd()}/views/`;
 
