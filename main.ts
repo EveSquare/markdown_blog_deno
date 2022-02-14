@@ -13,7 +13,7 @@ interface DirTree {
 }
 
 app.get("/", async (req) => {
-  const startDir = "pages";
+  const startDir = `${cwd()}/pages`;
   const dirTree: DirTree = {};
 
   for await (const dirEntry of Deno.readDir(startDir)) {
@@ -48,7 +48,7 @@ app.get("/", async (req) => {
 app.get("/:category/:page", async (req) => {
   const category = req.parameters.category;
   const page = req.parameters.page;
-  const filePath = `pages/${category}/${page}.md`;
+  const filePath = `${cwd()}/pages/${category}/${page}.md`;
 
   const decoder = new TextDecoder("utf-8");
   const markdown = decoder.decode(await Deno.readFile(filePath));
