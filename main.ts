@@ -1,12 +1,15 @@
 const { cwd, readDir, readFile, stat } = Deno;
-// import Aqua from "https://deno.land/x/aqua/deploy.ts";
-import Aqua from "https://deno.land/x/aqua/mod.ts";
+import Aqua from "https://deno.land/x/aqua/deploy.ts";
+// import Aqua from "https://deno.land/x/aqua/mod.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { renderFile, configure } from "https://deno.land/x/eta@v1.11.0/mod.ts"
 import { Marked } from "https://deno.land/x/markdown@v2.0.0/mod.ts";
 
-const app = new Aqua(3100);
-// const app = new Aqua();
+if (Deno.env.DEBUG == "true") {
+  const app = new Aqua(3100);
+} else {
+  const app = new Aqua();
+}
 const viewPath = `${cwd()}/views/`;
 
 configure({
