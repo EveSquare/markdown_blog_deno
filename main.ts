@@ -13,7 +13,7 @@ interface DirTree {
 }
 
 app.get("/", async (req) => {
-  const startDir = `${cwd()}/pages`;
+  const startDir = `./pages`;
   const dirTree: DirTree = {};
 
   for await (const dirEntry of readDir(startDir)) {
@@ -30,7 +30,7 @@ app.get("/", async (req) => {
     }
   }
 
-  const output = await renderFileToString(`${cwd()}/views/index.ejs`, {
+  const output = await renderFileToString(`./views/index.ejs`, {
     title: "home",
     body: dirTree
   });
@@ -48,13 +48,13 @@ app.get("/", async (req) => {
 app.get("/:category/:page", async (req) => {
   const category = req.parameters.category;
   const page = req.parameters.page;
-  const filePath = `${cwd()}/pages/${category}/${page}.md`;
+  const filePath = `./pages/${category}/${page}.md`;
 
   const decoder = new TextDecoder("utf-8");
   const markdown = decoder.decode(await readFile(filePath));
   const markup = Marked.parse(markdown);
 
-  const output = await renderFileToString(`${cwd()}/views/pagesBase.ejs`, {
+  const output = await renderFileToString(`./views/pagesBase.ejs`, {
     title: page,
     body: markup.content
   });
