@@ -37,7 +37,7 @@ app.get("/", async (req) => {
   });
 
   return {
-    content: String(output),
+    content: output,
     headers: {
       "Content-Type": "text/html"
     }
